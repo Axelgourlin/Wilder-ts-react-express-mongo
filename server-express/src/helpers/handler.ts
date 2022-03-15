@@ -1,8 +1,8 @@
-import { NextFunction, Request, Response } from 'express'
+import { NextFunction, Request, RequestHandler, Response } from 'express'
 
 const createError = require('http-errors')
 
-function asyncHandler(handler: Function): Function {
+function asyncHandler(handler: Function): RequestHandler {
   return async function (
     req: Request,
     res: Response,

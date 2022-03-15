@@ -8,6 +8,10 @@ import { setupRoutes } from './routes/index'
 
 const app = express()
 
+// - Typer toutes les variables (const/let) => (const maVar: ...=)
+// - Typer les paramétres d'entrée des fonctions (p,: ..., p2, ...) =>
+// - Typer le parametre de sortie des fonctions () =>
+
 const Init = async (): Promise<void> => {
   try {
     await mongoose.connect(
@@ -27,7 +31,7 @@ const Init = async (): Promise<void> => {
   setupRoutes(app)
 
   const PORT = process.env.API_PORT || 4000
-  app.listen(PORT, () => {
+  app.listen(PORT, (): void => {
     console.log('Server is running on port : ' + PORT)
   })
 }

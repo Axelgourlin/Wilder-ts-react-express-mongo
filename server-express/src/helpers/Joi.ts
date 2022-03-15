@@ -1,10 +1,10 @@
 import { IWilder } from '../models/wilder.model'
-import Joi from 'joi'
+import Joi, { ValidationResult } from 'joi'
 
-const validateInputWilderDto = (
+export const validateInputWilderDto = (
   inputDto: IWilder,
   forCreation: boolean = true
-) => {
+): ValidationResult => {
   const presence = forCreation ? 'required' : 'optional'
   return Joi.object({
     name: Joi.string().alphanum().min(2).max(254).presence(presence),
@@ -17,7 +17,5 @@ const validateInputWilderDto = (
         })
       )
       .presence(presence)
-  }).validate(inputDto, { abortEarly: false }).error
+  }).validate(inputDto, { abortEarly: false })
 }
-
-export { validateInputWilderDto }
