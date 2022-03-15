@@ -1,0 +1,55 @@
+
+#FindAll
+GET http://localhost:4000/api/v1/wilders
+Content-Type: application/json
+
+###
+
+# FindById
+GET http://localhost:4000/api/v1/wilders/62272bc272dd51ca282bfc45
+Content-Type: application/json
+
+###
+
+#Create
+POST http://localhost:4000/api/v1/wilders
+Content-Type: application/json
+
+{
+    "name": "Bobob3",
+    "city": "Bobopolis3",
+    "skills": []
+
+}
+
+###
+
+#Update
+PATCH http://localhost:4000/api/v1/wilders/62272699bc090a0699c7ee3a
+Content-Type: application/json
+
+{
+    "city": "Bobopolis3"
+}
+
+
+###
+
+#UpdateAll
+PUT http://localhost:4000/api/v1/wilders/62272bc27e63f1ca282bfc45
+Content-Type: application/json
+
+{
+    "name": "Test"
+}
+
+###
+
+#Delete
+DELETE http://localhost:4000/api/v1/wilders/622759060dd8a15fdace4b9e
+Content-Type: application/json
+
+###
+
+#Route not find
+GET http://localhost:4000/api/v1/wilde

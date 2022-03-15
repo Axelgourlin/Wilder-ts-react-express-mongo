@@ -3,29 +3,29 @@ import createError from 'http-errors'
 import { IWilder, Wilder } from '../models/wilder.model'
 import { validateInputWilderDto } from '../helpers/Joi'
 
-const create = async (req: Request, res: Response) => {
-  await Wilder.init()
-  const inputDto: IWilder = req.body
-  console.log('🚀 ~ create ~ req.body', req.body)
-  // let validationError = null
-  // validationError = validateInputWilderDto(inputDto)
-  // if (validationError) {
-  //   throw createError(400, 'Body does not have a correct format.')
-  // }
-  const wilder = Wilder.build({ ...inputDto })
+export const WilderController = {
+  create: async (req: Request, res: Response) => {
+    await Wilder.init()
+    const inputDto: IWilder = req.body
+    console.log('🚀 ~ create ~ req.body', req.body)
+    // let validationError = null
+    // validationError = validateInputWilderDto(inputDto)
+    // if (validationError) {
+    //   throw createError(400, 'Body does not have a correct format.')
+    // }
+    const wilder = Wilder.build({ ...inputDto })
 
-  try {
-    const result = await wilder.save()
-    return res.status(201).json({ success: true, result: result })
-  } catch (error: any) {
-    if(error.code === 11000) {
-      throw createError(409, `Name '${inputDto.name}' already use.`)
-    }
-    throw error
+    try {
+      const result = await wilder.save()
+      return res.status(201).json({ success: true, result: result })
+    } catch (error: any) {
+      if(error.code === 11000) {
+        throw createError(409, `Name '${inputDto.name}' already use.`)
+      }
+      throw error
   }
-}
-
-const findOneById = async (req: Request, res: Response) => {
+},
+findOneById: async (req: Request, res: Response) => {
   const { id } = req.params
 
   const wilder = await Wilder.findById(id)
@@ -34,18 +34,18 @@ const findOneById = async (req: Request, res: Response) => {
   } else {
     return res.status(200).json({ success: true, result: wilder })
   }
-}
+},
 
-const findAll = async (_: Request, res: Response) => {
+findAll: async (_: Request, res: Response) => {
   const wilders = await Wilder.find()
   if (!wilders) {
     throw createError(404, `Wilders not found.`)
   } else {
     return res.status(200).json({ success: true, result: wilders })
   }
-}
+},
 
-const updatePartial = async (req: Request, res: Response) => {
+updatePartial: async (req: Request, res: Response) => {
   const { id } = req.params
   const inputDto: IWilder = req.body
   let validationError = null
@@ -64,9 +64,9 @@ const updatePartial = async (req: Request, res: Response) => {
     }
     throw error
   }
-}
+},
 
-const update = async (req: Request, res: Response) => {
+update: async (req: Request, res: Response) => {
   const { id } = req.params
   const inputDto: IWilder = req.body
   let validationError = null
@@ -85,9 +85,9 @@ const update = async (req: Request, res: Response) => {
     const result = await wilder.save(wilder)
     return res.status(200).json({ success: true, result: result })
   }
-}
+},
 
-const destroy = async (req: Request, res: Response) => {
+destroy: async (req: Request, res: Response) => {
   const { id } = req.params
   try {
     const result = await Wilder.deleteOne({ _id: id })
@@ -99,12 +99,4 @@ const destroy = async (req: Request, res: Response) => {
     throw error
   }
 }
-
-export default {
-  create,
-  findAll,
-  findOneById,
-  updatePartial,
-  update,
-  destroy
 }

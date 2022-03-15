@@ -4,11 +4,11 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import morgan from 'morgan'
 
-import { setupRoutes } from './src/routes/index'
+import { setupRoutes } from './routes/index'
 
 const app = express()
 
-const Init = async () => {
+const Init = async (): Promise<void> => {
   try {
     await mongoose.connect(
       `mongodb://127.0.0.1:${process.env.DB_PORT}/${process.env.DB_NAME}`,

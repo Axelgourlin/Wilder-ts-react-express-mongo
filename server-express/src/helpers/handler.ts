@@ -3,7 +3,11 @@ import { NextFunction, Request, Response } from 'express'
 const createError = require('http-errors')
 
 function asyncHandler(handler: Function): Function {
-  return async function (req: Request, res: Response, next: NextFunction) {
+  return async function (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
       await handler(req, res, next)
     } catch (error) {
