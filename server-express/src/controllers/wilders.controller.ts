@@ -2,6 +2,10 @@ import { Request, Response } from 'express'
 import createError from 'http-errors'
 import  Wilder  from '../models/wilder.model'
 import {createInputWilderDto, updateInputWilderDto } from '../helpers/Joi'
+import ImageModel, { IImage } from '../models/Image.model'
+
+import fs from'fs';
+import path from 'path';
 
 const WilderController = {
   create: async (req: Request, res: Response) => {
@@ -96,7 +100,35 @@ destroy: async (req: Request, res: Response) => {
     }
     throw error
   }
-}
+},
+
+uploadImg: async (req: Request, res: Response) => {
+  if(!req.file) {
+    throw createError(400, `No file received`)
+  } else {
+    console.log('File received', req.file);
+
+    const imageObject: IImage = {
+      name: req.body.name,
+      description: req.body.description,
+      img: {
+        data: fs.readFileSync(path.join(process.cwd(), 'images', req.file.filename)),
+        contentType: 'image/png'
+      }
+    }
+
+    ImageModel.create(imageObject, (err: any, item) =>{
+      if(err) {
+        console.log('Error image model.');
+      } else {
+        return res.status(200).json({success: true, result: {_id: item._id}})
+      }
+    })
+
+  } 
+    
+    
+  }
 }
 
 export default WilderController

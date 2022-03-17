@@ -128,7 +128,7 @@ const Form = ({ onError, getWilders }: IProps): JSX.Element => {
             placeholder="Votes.."
             className="form__input"
             onChange={(e) => setSkill({ ...skill, votes: +e.target.value })}
-            value={skill.votes}
+            value={skill.votes} //TODO: Refacto skill comme liveco ( add and change)
           />
           <button
             onClick={(e) => {

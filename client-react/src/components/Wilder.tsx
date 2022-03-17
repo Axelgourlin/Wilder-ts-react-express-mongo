@@ -110,7 +110,7 @@ const Wilder = ({
             onChange={(skill) => {
               const temp = wilder.skills.slice()
               temp.splice(i, 1, skill)
-              setWilder({...wilder, skills: temp})
+              setWilder({...wilder, skills: temp}) //TODO: voir pour refacto sans slice (...spread)
             }}
           />
         ))}

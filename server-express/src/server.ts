@@ -27,6 +27,7 @@ const Init = async (): Promise<void> => {
   app.use(cors())
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
+  app.use(express.static(__dirname + '/public'))
 
   setupRoutes(app)
 
