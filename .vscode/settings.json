@@ -1,0 +1,23 @@
+{
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+  "prettier.requireConfig": true,
+  "eslint.lintTask.enable": true,
+  "eslint.alwaysShowStatus": true,
+  "typescript.tsserver.experimental.enableProjectDiagnostics": false,
+  "restoreTerminals.terminals": [
+    {
+      "splitTerminals": [
+        {
+          "name": "backend",
+          "commands": ["cd server-express", "npm run dev"]
+        },
+        {
+          "name": "frontend",
+          "commands": ["cd client-react", "npm start"]
+        }
+      ]
+    }
+  ]
+}
