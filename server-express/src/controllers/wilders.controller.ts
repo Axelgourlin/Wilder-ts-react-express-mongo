@@ -1,13 +1,13 @@
 import { Request, Response } from 'express'
 import createError from 'http-errors'
 import  Wilder  from '../models/wilder.model'
-import { validateInputWilderDto } from '../helpers/Joi'
+import {createInputWilderDto, updateInputWilderDto } from '../helpers/Joi'
 
 const WilderController = {
   create: async (req: Request, res: Response) => {
     await Wilder.init()
     const inputDto = req.body
-    const validationResult = validateInputWilderDto(inputDto)
+    const validationResult = createInputWilderDto(inputDto)
     if (validationResult.error) {
       throw createError(400, 'Body does not have a correct format.')
     }
@@ -46,7 +46,8 @@ findAll: async (_: Request, res: Response) => {
 updatePartial: async (req: Request, res: Response) => {
   const { id } = req.params
   const inputDto = req.body
-  const validationResult = validateInputWilderDto(inputDto, false)
+  console.log("🚀 ~ updatePartial: ~ inputDto", inputDto);
+  const validationResult = updateInputWilderDto(inputDto)
   if (validationResult.error) {
     throw createError(400, 'Body does not have a correct format.')
   }
@@ -67,7 +68,7 @@ update: async (req: Request, res: Response) => {
   const { id } = req.params
   const inputDto = req.body
   let validationError = null
-  validationError = validateInputWilderDto(inputDto, false)
+  validationError = updateInputWilderDto(inputDto, false)
   if (validationError) {
     throw createError(400, 'Body does not have a correct format.')
   }
