@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import Skill from "../components/Skill";
 import { IError, ISkill } from "../interface";
+import PropTypes from "prop-types";
 
 import styled from "styled-components";
 
@@ -43,15 +44,20 @@ const FormContainer = styled.form<{}>`
     }
   }
 `;
-interface IFormProps {
+interface IProps {
   onError: (error: IError) => void;
   getWilders: () => void;
 }
 
-const Form = ({ onError, getWilders }: IFormProps): JSX.Element => {
+const propTypes = {
+  onError: PropTypes.func,
+  getWilders: PropTypes.func
+};
+
+const Form = ({ onError, getWilders }: IProps): JSX.Element => {
   const [name, setName] = useState<string>("Test");
   const [city, setCity] = useState<string>("TestCity");
-  const [skill, setSkill] = useState<ISkill>({ title: "", votes: 0 });
+  const [skill, setSkill] = useState<ISkill>({ title: "Test", votes: 0 });
   const [skills, setSkills] = useState<ISkill[]>([]);
 
   const submitForm = async (
@@ -76,8 +82,8 @@ const Form = ({ onError, getWilders }: IFormProps): JSX.Element => {
   };
 
   const addSkill = (): void => {
-    skills.push(skill);
-    setSkill({ title: "", votes: 0 });
+    setSkills([...skills, skill]);
+    setSkill({ title: "Test", votes: 0 });
   };
 
   return (
@@ -123,13 +129,12 @@ const Form = ({ onError, getWilders }: IFormProps): JSX.Element => {
             value={skill.votes}
           />
           <button
-            className="form__btnRemove"
             onClick={(e) => {
               e.preventDefault();
               addSkill();
             }}
           >
-            +
+            Add skill
           </button>
         </div>
       </div>
@@ -150,5 +155,8 @@ const Form = ({ onError, getWilders }: IFormProps): JSX.Element => {
     </FormContainer>
   );
 };
+
+Form.propTypes = propTypes;
+
 
 export default Form;

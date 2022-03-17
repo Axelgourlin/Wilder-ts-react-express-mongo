@@ -1,4 +1,4 @@
-export function MdiPencil() {
+export function MdiPencil(): JSX.Element {
   return (
     <svg width="0.75em" height="0.75em" viewBox="0 0 24 24">
       <path
