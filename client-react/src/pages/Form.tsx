@@ -1,10 +1,12 @@
+import { useState } from "react";
 import axios from "axios";
-import React, { useState } from "react";
-import Skill from "../components/Skill";
-import { IError, ISkill } from "../interface";
 import PropTypes from "prop-types";
-
 import styled from "styled-components";
+
+import { IError, ISkill } from "../interface";
+
+import Skill from "../components/Skill";
+
 
 const FormContainer = styled.form<{}>`
   padding: 10px;

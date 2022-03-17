@@ -10,12 +10,12 @@
     {
       "splitTerminals": [
         {
-          "name": "backend",
-          "commands": ["cd server-express", "npm run dev"]
-        },
-        {
           "name": "frontend",
           "commands": ["cd client-react", "npm start"]
+        },
+        {
+          "name": "backend",
+          "commands": ["cd server-express", "npm run dev"]
         }
       ]
     }

@@ -1,6 +1,7 @@
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import styled from "styled-components";
-import { ISkill, IWilder } from "../interface";
+
+import { ISkill } from "../interface";
 
 const Skills = styled.li`
   input {
@@ -10,24 +11,28 @@ const Skills = styled.li`
 
 interface IProps {
   skill: ISkill;
-  wilder?: IWilder;
   isEditing?: boolean;
-  setWilder?: Function;
+  onChange?: (skill: ISkill) => void; 
 }
 
-// const propTypes = {
-//   wilder: {
-//     title: PropTypes.string.isRequired,
-//     votes: PropTypes.number.isRequired,
-//   },
-// };
+const propTypes = {
+  skill: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    votes: PropTypes.number.isRequired,
+  }).isRequired,
+  isEditing: PropTypes.bool,
+  onChange: PropTypes.func,
+};
+
+
 
 const Skill = ({
   skill,
-  wilder,
   isEditing,
-  setWilder,
+  onChange
 }: IProps): JSX.Element => {
+
+
   return (
     <Skills>
       {isEditing ? (
@@ -36,8 +41,10 @@ const Skill = ({
           <input
             type="text"
             value={skill.title}
-            onChange={(e) =>
-              setWilder && setWilder({ ...wilder, title: e.target.value })
+            onChange={(e) =>{
+              skill.title = e.target.value
+              onChange && onChange({...skill, title: e.target.value })
+            }
             }
           />
         </>
@@ -50,8 +57,10 @@ const Skill = ({
           <input
             type="number"
             value={skill.votes}
-            onChange={(e) =>
-              setWilder && setWilder({ ...wilder, votes: e.target.value })
+            onChange={(e) => {
+              skill.votes = +e.target.value
+              onChange && onChange({...skill, votes: +e.target.value})
+            }
             }
           />
         </>
@@ -61,6 +70,6 @@ const Skill = ({
     </Skills>
   );
 };
-// Skill.propTypes = propTypes;
+Skill.propTypes = propTypes;
 
 export default Skill;

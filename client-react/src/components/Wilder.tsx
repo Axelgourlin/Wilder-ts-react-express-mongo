@@ -1,12 +1,13 @@
 // @ts-nocheck
-import Skill from "./Skill";
-import PropTypes from "prop-types";
-import axios from "axios";
-import styled from "styled-components";
 import { useState } from "react";
-import MdiPencil from "./styled/MdiPencil";
+import axios from "axios";
+import PropTypes from "prop-types";
+import styled from "styled-components";
 
+import Skill from "./Skill";
+import MdiPencil from "./styled/MdiPencil";
 import avatars from "../assets/avatar.png";
+
 const GroupBtn = styled.div<{}>`
   position: absolute;
   top: 5px;
@@ -32,7 +33,8 @@ const propTypes = {
   skills: PropTypes.arrayOf(
     PropTypes.shape({ title: PropTypes.string, votes: PropTypes.number })
   ).isRequired,
-  refreshPage: PropTypes.func,
+  onError: PropTypes.func,
+  getWilders: PropTypes.func
 };
 
 const Wilder = ({
@@ -51,9 +53,14 @@ const Wilder = ({
     skills: skills,
   });
 
+
   const updateWilder = async (): Promise<void> => {
-    console.log(wilder);
-    setIsEditing(false);
+    try {
+      await axios.patch(`${process.env.REACT_APP_URL_API}/wilders/${_id}`, wilder)
+      setIsEditing(false);
+    } catch (error) {
+      onError(error);
+    }
   };
 
   const removeWilder = async (): Promise<void> => {
@@ -98,11 +105,13 @@ const Wilder = ({
         {skills.map((skill, i) => (
           <Skill
             key={i}
-            title={skill.title}
-            votes={skill.votes}
+            skill={skill}
             isEditing={isEditing}
-            wilder={wilder}
-            setWilder={setWilder}
+            onChange={(skill) => {
+              const temp = wilder.skills.slice()
+              temp.splice(i, 1, skill)
+              setWilder({...wilder, skills: temp})
+            }}
           />
         ))}
       </ul>
