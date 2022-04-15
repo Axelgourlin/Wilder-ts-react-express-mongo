@@ -8,12 +8,9 @@ import { setupRoutes } from './routes/index'
 
 const app = express()
 
-// - Typer toutes les variables (const/let) => (const maVar: ...=)
-// - Typer les paramétres d'entrée des fonctions (p,: ..., p2, ...) =>
-// - Typer le parametre de sortie des fonctions () =>
-
 const Init = async (): Promise<void> => {
   try {
+    // Init connection to mongodb
     await mongoose.connect(
       `mongodb://127.0.0.1:${process.env.DB_PORT}/${process.env.DB_NAME}`,
       { autoIndex: true }
