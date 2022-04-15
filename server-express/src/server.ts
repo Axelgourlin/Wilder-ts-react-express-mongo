@@ -1,6 +1,6 @@
 import 'dotenv/config'
 import express from 'express'
-import mongoose from 'mongoose'
+import { MongoClient } from 'mongodb'
 import cors from 'cors'
 import morgan from 'morgan'
 
@@ -8,16 +8,22 @@ import { setupRoutes } from './routes/index'
 
 const app = express()
 
+// Connection URI
+const uri = `mongodb://127.0.0.1:${process.env.DB_PORT}/${process.env.DB_NAME}`
+
+// Create a new MongoClient
+const client = new MongoClient(uri)
+
 const Init = async (): Promise<void> => {
   try {
-    // Init connection to mongodb
-    await mongoose.connect(
-      `mongodb://127.0.0.1:${process.env.DB_PORT}/${process.env.DB_NAME}`,
-      { autoIndex: true }
-    )
-    console.log('Connected to database !')
-  } catch (error) {
-    console.log(error)
+    // Connect the client to the server
+    await client.connect()
+    // Establish and verify connection
+    await client.db('admin').command({ ping: 1 })
+    console.log('Connected successfully to server')
+  } finally {
+    // Ensures that the client will close when you finish/error
+    await client.close()
   }
 
   app.use(morgan('tiny'))
@@ -33,4 +39,4 @@ const Init = async (): Promise<void> => {
     console.log('Server is running on port : ' + PORT)
   })
 }
-Init()
+Init().catch(console.dir)
