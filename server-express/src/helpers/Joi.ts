@@ -1,7 +1,7 @@
-import { IWilder } from '../models/wilder.model'
+import { Wilder } from '../models/wilder.model'
 import Joi, { ValidationResult } from 'joi'
 
-export const createInputWilderDto = (inputDto: IWilder): ValidationResult => {
+export const createInputWilderDto = (inputDto: Wilder): ValidationResult => {
   return Joi.object({
     name: Joi.string().alphanum().min(2).max(254).required(),
     city: Joi.string().alphanum().min(2).max(254).required(),
@@ -15,10 +15,7 @@ export const createInputWilderDto = (inputDto: IWilder): ValidationResult => {
       .required()
   }).validate(inputDto, { abortEarly: false })
 }
-export const updateInputWilderDto = (
-  inputDto: IWilder,
-  partial: boolean = true
-): ValidationResult => {
+export const updateInputWilderDto = (inputDto: Wilder, partial: boolean = true): ValidationResult => {
   const presence = partial ? 'optional' : 'required'
   return Joi.object({
     _id: Joi.string().required(),

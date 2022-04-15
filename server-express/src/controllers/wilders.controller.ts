@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import createError from 'http-errors'
-import  Wilder  from '../models/wilder.model'
+import  {WilderModel}  from '../models/wilder.model'
 import {createInputWilderDto, updateInputWilderDto } from '../helpers/Joi'
 import ImageModel, { IImage } from '../models/Image.model'
 
@@ -9,13 +9,13 @@ import path from 'path';
 
 const WilderController = {
   create: async (req: Request, res: Response) => {
-    await Wilder.init()
+    await WilderModel.init()
     const inputDto = req.body
     const validationResult = createInputWilderDto(inputDto)
     if (validationResult.error) {
       throw createError(400, 'Body does not have a correct format.')
     }
-    const wilder = new Wilder({ ...inputDto })
+    const wilder = new WilderModel({ ...inputDto })
 
     try {
       const result = await wilder.save()
@@ -30,7 +30,7 @@ const WilderController = {
 findOneById: async (req: Request, res: Response) => {
   const { id } = req.params
 
-  const wilder = await Wilder.findById(id)
+  const wilder = await WilderModel.findById(id)
   if (!wilder) {
     throw createError(404, `Wilder with ID '${id}' not found.`)
   } else {
@@ -39,7 +39,7 @@ findOneById: async (req: Request, res: Response) => {
 },
 
 findAll: async (_: Request, res: Response) => {
-  const wilders = await Wilder.find()
+  const wilders = await WilderModel.find()
   if (!wilders) {
     throw createError(404, `Wilders not found.`)
   } else {
@@ -56,7 +56,7 @@ updatePartial: async (req: Request, res: Response) => {
     throw createError(400, 'Body does not have a correct format.')
   }
   try {
-    const wilder = await Wilder.findByIdAndUpdate({ _id: id }, inputDto, {
+    const wilder = await WilderModel.findByIdAndUpdate({ _id: id }, inputDto, {
       new: true
     })
     return res.status(200).json({ success: true, result: wilder })
@@ -77,7 +77,7 @@ update: async (req: Request, res: Response) => {
     throw createError(400, 'Body does not have a correct format.')
   }
 
-  const wilder: any = await Wilder.findById(id)
+  const wilder: any = await WilderModel.findById(id)
   if (!wilder) {
     throw createError(404, `Wilder with ID '${id}' not found.`)
   } else {
@@ -92,7 +92,7 @@ update: async (req: Request, res: Response) => {
 destroy: async (req: Request, res: Response) => {
   const { id } = req.params
   try {
-    const result = await Wilder.deleteOne({ _id: id })
+    const result = await WilderModel.deleteOne({ _id: id })
     return res.status(200).json({ success: true, result: result })
   } catch (error: any) {
     if (error.path === '_id') {

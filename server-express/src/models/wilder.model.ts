@@ -1,19 +1,21 @@
-import { Schema, model } from 'mongoose'
+import { prop, getModelForClass } from '@typegoose/typegoose';
 
-type Skill = { title: string, votes: number }
+export class Skill {
+  @prop({ required: true })
+  title?: string;
 
-export interface IWilder {
-  name: string;
-  city: string;
-  skills: Skill[];
+  @prop({ required: true })
+  votes?: number;
+}
+export class Wilder {
+  @prop()
+  public name!: string;
+
+  @prop()
+  city!: string;
+
+  @prop({ type: () => [Skill] })
+  public skills!: Skill[];
 }
 
-// prettier-ignore
-const WilderSchema = new Schema<IWilder>({
-  name: { type: String, unique: true },
-  city: String,
-  skills: [{ title: String, votes: Number }]
-});
-
-// prettier-ignore
-export default model<IWilder>('Wilder', WilderSchema)
+export const WilderModel = getModelForClass(Wilder); 
